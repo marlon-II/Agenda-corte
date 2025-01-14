@@ -56,3 +56,12 @@ body{
 #buttonE{
     text-align: left;
 }
+#voltar{
+    width: 50%;
+}
+
+/* css do cadastramento de funcionário */
+
+#voltarfun{
+    margin-left: 40px;
+}
