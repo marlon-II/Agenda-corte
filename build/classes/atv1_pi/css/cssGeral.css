@@ -1,0 +1,40 @@
+body{
+    background-color: #f0f4f6;
+}
+
+#logo{
+    background-color: #000000;
+   justify-content: center;
+   display: flex;
+}
+#logo h1{
+    background-color: #000000;
+    border: 10px solid white;
+    display: inline-flex;
+    height: 20;
+    width: 80;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+#login{
+    justify-content: center;
+    display: flex;
+    margin-top: 175px;
+    
+}
+#login form{
+    background-color: #fff;
+    padding: 20px;
+}
+#login label{
+    margin-right: 10px;
+}
+#login input{
+    margin-bottom: 20px;
+}
+#login button{
+    margin-right: 50px;
+}
