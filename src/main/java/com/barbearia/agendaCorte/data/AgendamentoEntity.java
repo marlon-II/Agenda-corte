@@ -15,7 +15,7 @@ import lombok.Data;
 
 public class AgendamentoEntity {
     @Id
-    @GeneratedValue( strategy = GenerationType.AUTO)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Integer id_agendamento;
     private Date data_marcada;
     private Integer id_cliente;

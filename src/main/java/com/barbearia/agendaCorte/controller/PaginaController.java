@@ -25,4 +25,24 @@ public class PaginaController {
     public String ListaCliente(){
         return "ListaCliente";
     }
+
+    @RequestMapping("/adicionarFuncionario")
+    public String CadastroFuncionario(){
+        return "CadastroFuncionario";
+    }
+
+    @RequestMapping("/listaFuncionario")
+    public String ListaFuncionario(){
+        return "ListaFuncionario";
+    }
+
+    @RequestMapping("/adicionarServico")
+    public String CadastramentoCorte(){
+        return "CadastramentoCorte";
+    }
+
+    @RequestMapping("/listaServico")
+    public String ListaCorte(){
+        return "ListaCorte";
+    }
 }

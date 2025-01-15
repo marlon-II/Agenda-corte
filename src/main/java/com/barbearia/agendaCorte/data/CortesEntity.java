@@ -13,7 +13,7 @@ import lombok.Data;
 
 public class CortesEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_tipoCorte;
     private String nome;
     private Double valor;

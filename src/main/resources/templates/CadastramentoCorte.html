@@ -16,28 +16,46 @@
         </div>
 
         <div class="container py-5">
-            <form id="formCorte">
+            <form id="formCorte" onsubmit="cadastrarCorte(event)">
                 <h3 class="text-center mb-4">Cadastro de Corte</h3>
         
                 <div class="mb-3">
                     <label  class="form-label">Nome do Corte</label>
-                    <input type="text" class="form-control"  placeholder="Nome do corte" required>
+                    <input id="nome" type="text" class="form-control"  placeholder="Nome do corte" required>
                 </div>
         
                 <div class="mb-3">
                     <label  class="form-label">Valor do corte</label>
-                    <input type="text" class="form-control"  placeholder="Valor" required>
+                    <input id="valor" type="text" class="form-control"  placeholder="Valor" required>
                 </div>
         
                  <div class="text-center mt-4">
                     <div class="d-flex justify-content-center gap-3">
-                        <a href="Menu.html" class="btn btn-secondary">Cadastrar</a>
-                        <a id="voltarfun" href="Menu.html" class="btn btn-light">Voltar</a>
+                        <button type="submit" class="btn btn-secondary">Cadastrar</button>
+                        <a id="voltarfun" href="/Menu" class="btn btn-light">Voltar</a>
                     </div>
             </form>
         </div>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+        <script>
+              function cadastrarCorte(event){
+    event.preventDefault();
+
+    const nome = document.getElementById("nome").value;
+    const valor = document.getElementById("valor").value;
+
+    fetch('/cortes/adicionar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nome, valor})
+})
+.then(response => response.json())
+.then(data => {
+    
+});
+}
+        </script>
     </body>
 </html>

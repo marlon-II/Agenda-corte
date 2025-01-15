@@ -13,7 +13,7 @@ import lombok.Data;
 
 public class FuncionarioEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_barbeiro;
     private String nome;
     private String area;

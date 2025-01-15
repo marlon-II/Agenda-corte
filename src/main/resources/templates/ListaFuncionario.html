@@ -15,7 +15,7 @@
 
         <h3 class="text-center mb-4">Lista de Funcionários</h3>
 
-        <table class="table table-striped table-bordered">
+        <table id="funcionarioTable" class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -23,24 +23,7 @@
                     <th>Área de Atuação</th>
                 </tr>
             </thead>
-            <tbody>
-                
-                <tr>
-                    <td>1</td>
-                    <td>João Silva</td>
-                    <td>Cabeleireiro</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Maria Oliveira</td>
-                    <td>Barbeiro</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Carlos Souza</td>
-                    <td>Manicure</td>
-                </tr>
-            </tbody>
+            <tbody></tbody>
         </table>
 
         <div class="text-center mt-4">
@@ -49,6 +32,28 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+        <script>
+            function listarFuncionario() {
+            fetch(`/funcionario/listar`)
+                .then(response => response.json())
+                .then(funcionario => {
+                    const funcionarioTableBody = document.getElementById('funcionarioTable').getElementsByTagName('tbody')[0];
+                    funcionarioTableBody.innerHTML = ''; 
+                    funcionario.forEach(funcionario => {
+                        const row = funcionarioTableBody.insertRow();
+                        row.innerHTML = `
+                            <td>${funcionario.id_barbeiro}</td>
+                            <td>${funcionario.nome}</td>
+                            <td>${funcionario.area}</td>
+        
+                        `;
+                    });
+                })
+                .catch(error => console.error('Erro ao listar funcinarios:', error));
+        }
+
+        window.onload = listarFuncionario;
+        </script>
     </bod>
 
 </html>
