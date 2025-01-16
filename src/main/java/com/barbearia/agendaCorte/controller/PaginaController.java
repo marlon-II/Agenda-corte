@@ -45,4 +45,14 @@ public class PaginaController {
     public String ListaCorte(){
         return "ListaCorte";
     }
+
+    @RequestMapping("/agendar")
+    public String Agendamento(){
+        return "Agendamento";
+    }
+
+    @RequestMapping("/listaAgendamento")
+    public String ListaAgenda(){
+        return "ListaAgendamento";
+    }
 }

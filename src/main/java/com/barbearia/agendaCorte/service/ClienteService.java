@@ -24,7 +24,7 @@ public class ClienteService {
 
     public ClienteEntity getclienteId(Integer clienteId) {
         return clienteRepository.findById(clienteId)
-            .orElseThrow(() -> new ResourceNotFoundException("Filme não encontrado com id " + clienteId));
+            .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado com id " + clienteId));
     }
 
     public List<ClienteEntity> listarTdClientes(){

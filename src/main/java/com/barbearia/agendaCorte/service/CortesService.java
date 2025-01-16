@@ -10,25 +10,22 @@ import com.barbearia.agendaCorte.data.CortesRepository;
 import com.barbearia.agendaCorte.exeption.ResourceNotFoundException;
 
 @Service
-
 public class CortesService {
 
     @Autowired
+    private CortesRepository cortesRepository;
 
-    CortesRepository cortesRepository;
-
-    public CortesEntity criarCortes(CortesEntity cortes){
-       cortes.setId_tipoCorte(null);
-        CortesEntity corteSalvo = cortesRepository.save(cortes);
-        return corteSalvo;
+    public CortesEntity criarCortes(CortesEntity cortes) {
+        // Não precisa setar o id como null, o Hibernate cuida disso
+        return cortesRepository.save(cortes);
     }
 
-    public CortesEntity getcortesId(Integer cortesId) {
+    public CortesEntity getCortePorId(Integer cortesId) {
         return cortesRepository.findById(cortesId)
-            .orElseThrow(() -> new ResourceNotFoundException("Filme não encontrado com id " + cortesId));
+            .orElseThrow(() -> new ResourceNotFoundException("Corte não encontrado com id " + cortesId));
     }
 
-    public List<CortesEntity> listarTdcortes(){
+    public List<CortesEntity> listarTodosCortes() {
         return cortesRepository.findAll();
     }
 }

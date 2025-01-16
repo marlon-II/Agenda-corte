@@ -17,23 +17,19 @@ import com.barbearia.agendaCorte.service.CortesService;
 @RestController
 @RequestMapping("/cortes")
 public class CortesController {
- @Autowired
 
-    CortesService cortesService;
+    @Autowired
+    private CortesService cortesService;
 
     @PostMapping("/adicionar")
-    public ResponseEntity<CortesEntity> addCorte (@RequestBody CortesEntity corte){
-        var novoCorte = cortesService.criarCortes(corte);
+    public ResponseEntity<CortesEntity> addCorte(@RequestBody CortesEntity corte) {
+        CortesEntity novoCorte = cortesService.criarCortes(corte);
         return new ResponseEntity<>(novoCorte, HttpStatus.CREATED);
     }
 
-    @SuppressWarnings("rawtypes")
     @GetMapping("/listar")
-   public ResponseEntity<List> getAllFilmes() { 
-
-        List<CortesEntity> corte = cortesService.listarTdcortes();
-
-        return new ResponseEntity<>(corte, HttpStatus.OK); 
-
- } 
+    public ResponseEntity<List<CortesEntity>> getAllCortes() {
+        List<CortesEntity> cortes = cortesService.listarTodosCortes();
+        return new ResponseEntity<>(cortes, HttpStatus.OK);
+    }
 }
