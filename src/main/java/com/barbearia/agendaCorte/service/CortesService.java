@@ -1,6 +1,7 @@
 package com.barbearia.agendaCorte.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.barbearia.agendaCorte.data.CortesEntity;
 import com.barbearia.agendaCorte.data.CortesRepository;
 import com.barbearia.agendaCorte.exeption.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class CortesService {
@@ -27,5 +30,14 @@ public class CortesService {
 
     public List<CortesEntity> listarTodosCortes() {
         return cortesRepository.findAll();
+    }
+
+    public Optional<CortesEntity> findByNome(String nome) {
+        return cortesRepository.findByNome(nome);
+    }
+
+    public CortesEntity findById(Integer tipoCorteId) {
+        return cortesRepository.findById(tipoCorteId)
+                .orElseThrow(() -> new EntityNotFoundException("Tipo de corte não encontrado com ID " + tipoCorteId));
     }
 }

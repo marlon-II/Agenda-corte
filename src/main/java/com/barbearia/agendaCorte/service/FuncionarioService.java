@@ -1,6 +1,7 @@
 package com.barbearia.agendaCorte.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.barbearia.agendaCorte.data.FuncionarioEntity;
 import com.barbearia.agendaCorte.data.FuncionarioRepository;
 import com.barbearia.agendaCorte.exeption.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class FuncionarioService {
@@ -29,5 +32,14 @@ public class FuncionarioService {
 
     public List<FuncionarioEntity> listarTdfuncionarios(){
         return funcionarioRepository.findAll();
+    }
+
+    public Optional<FuncionarioEntity> findByNome(String nome) {
+        return funcionarioRepository.findByNome(nome);
+    }
+
+    public FuncionarioEntity findById(Integer barbeiroId) {
+        return funcionarioRepository.findById(barbeiroId)
+                .orElseThrow(() -> new EntityNotFoundException("Barbeiro não encontrado com ID " + barbeiroId));
     }
 }
