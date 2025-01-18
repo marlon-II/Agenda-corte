@@ -2,42 +2,48 @@ package com.barbearia.agendaCorte.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.barbearia.agendaCorte.data.ClienteEntity;
+import com.barbearia.agendaCorte.data.ClienteRepository;
 import com.barbearia.agendaCorte.data.FuncionarioEntity;
+import com.barbearia.agendaCorte.data.FuncionarioRepository;
 import com.barbearia.agendaCorte.data.LoginRequest;
 import com.barbearia.agendaCorte.data.LoginResponse;
-import com.barbearia.agendaCorte.service.ClienteService;
-import com.barbearia.agendaCorte.service.FuncionarioService;
+import com.barbearia.agendaCorte.exeption.ErrorResponse;
 
-@RequestMapping("/logar")
+@RestController
+@RequestMapping("/login")
 public class LoginController {
 
-    @Autowired
-    private ClienteService clienteService;
+   @Autowired
+    private ClienteRepository clienteRepository;
 
     @Autowired
-    private FuncionarioService funcionarioService;
+    private FuncionarioRepository funcionarioRepository;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        
-        // Autentica o cliente
-        ClienteEntity cliente = clienteService.autenticarCliente(loginRequest.getNome(), loginRequest.getSenha());
+    @PostMapping
+    public ResponseEntity<?> verificarLogin(@RequestBody LoginRequest loginRequest) {
+        String nome = loginRequest.getNome();
+        String senha = loginRequest.getSenha();
+
+      
+        ClienteEntity cliente = clienteRepository.findByNomeAndSenha(nome, senha);
         if (cliente != null) {
-            return ResponseEntity.ok(new LoginResponse("cliente", cliente)); // Retorna tipo 'cliente' e dados do cliente
+            return ResponseEntity.ok(new LoginResponse("cliente"));
         }
 
-        // Autentica o funcionário
-        FuncionarioEntity funcionario = funcionarioService.autenticarFuncionario(loginRequest.getNome(), loginRequest.getSenha());
+        
+        FuncionarioEntity funcionario = funcionarioRepository.findByNomeAndSenha(nome, senha);
         if (funcionario != null) {
-            return ResponseEntity.ok(new LoginResponse("funcionario", funcionario)); // Retorna tipo 'funcionario' e dados do funcionário
+            return ResponseEntity.ok(new LoginResponse("funcionario"));
         }
 
-        // Caso não encontre nenhum usuário
-        return ResponseEntity.status(401).body("Nome de usuário ou senha incorretos.");
+      
+        return ResponseEntity.status(401).body(new ErrorResponse("Credenciais incorretas"));
     }
 }

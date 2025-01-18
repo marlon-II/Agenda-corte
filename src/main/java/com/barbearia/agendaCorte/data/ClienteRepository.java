@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface ClienteRepository extends JpaRepository<ClienteEntity, Integer>{
 
     ClienteEntity findByNome(String nome);
+    ClienteEntity findByNomeAndSenha(String nome, String senha);
 }

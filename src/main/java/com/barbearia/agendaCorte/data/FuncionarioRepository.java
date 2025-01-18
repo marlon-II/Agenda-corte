@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface FuncionarioRepository extends JpaRepository<FuncionarioEntity, Integer>{
 
     FuncionarioEntity findByNome(String nome);
+    FuncionarioEntity findByNomeAndSenha(String nome, String senha);
+
 }

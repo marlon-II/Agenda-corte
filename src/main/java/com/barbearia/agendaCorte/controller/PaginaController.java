@@ -55,4 +55,9 @@ public class PaginaController {
     public String ListaAgenda(){
         return "ListaAgenda";
     }
+
+    @RequestMapping("/menuCliente")
+    public String MenuCliente(){
+        return "MenuCliente";
+    }
 }

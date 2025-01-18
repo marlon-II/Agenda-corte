@@ -46,7 +46,7 @@
                  <div class="text-center mt-4">
                     <div class="d-flex justify-content-center gap-3">
                         <button type="submit" class="btn btn-secondary">Cadastrar</button>
-                        <a id="voltarfun" href="/Menu" class="btn btn-light">Voltar</a>
+                        <a id="voltarfun" href="/" class="btn btn-light">Voltar</a>
                     </div>
             </form>
         </div>
@@ -70,6 +70,7 @@
 })
 .then(response => response.json())
 .then(data => {
+    window.location.href = '/';  
     
 });
 }
