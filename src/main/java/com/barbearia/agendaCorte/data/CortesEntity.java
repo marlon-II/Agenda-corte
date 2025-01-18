@@ -1,6 +1,5 @@
 package com.barbearia.agendaCorte.data;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
@@ -18,7 +17,7 @@ public class CortesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_tipoCorte")
+    @Column(name = "id_tipo_corte")
     @JsonProperty("idTipoCorte")  
     private Integer idTipoCorte;  
 

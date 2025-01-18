@@ -9,47 +9,44 @@ import org.springframework.stereotype.Service;
 import com.barbearia.agendaCorte.data.AgendamentoEntity;
 import com.barbearia.agendaCorte.data.AgendamentoRepository;
 import com.barbearia.agendaCorte.data.ClienteEntity;
+import com.barbearia.agendaCorte.data.ClienteRepository;
 import com.barbearia.agendaCorte.data.CortesEntity;
+import com.barbearia.agendaCorte.data.CortesRepository;
 import com.barbearia.agendaCorte.data.FuncionarioEntity;
+import com.barbearia.agendaCorte.data.FuncionarioRepository;
 import com.barbearia.agendaCorte.exeption.ResourceNotFoundException;
-
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 
 public class AgendamentoService {
     @Autowired
-
-    AgendamentoRepository agendamentoRepository;
-
- @Autowired
-    private ClienteService clienteService;
+    private AgendamentoRepository agendamentoRepository;
 
     @Autowired
-    private FuncionarioService funcionarioService;
+    private ClienteRepository clienteRepository;
 
     @Autowired
-    private CortesService cortesService;
+    private FuncionarioRepository funcionarioRepository;
 
-    public AgendamentoEntity criarAgendamento(Integer clienteId, Integer barbeiroId, Integer tipoCorteId, String dataMarcada, String hora) {
-        // Buscar cliente, barbeiro e tipo de corte
-        ClienteEntity cliente = clienteService.findById(clienteId);
-        FuncionarioEntity barbeiro = funcionarioService.findById(barbeiroId);
-        CortesEntity tipoCorte = cortesService.findById(tipoCorteId);
+    @Autowired
+    private CortesRepository cortesRepository;
 
-        if (cliente == null || barbeiro == null || tipoCorte == null) {
-            throw new EntityNotFoundException("Cliente, barbeiro ou tipo de corte não encontrado.");
-        }
-
-        // Criar o agendamento
+    public AgendamentoEntity criarAgendamento(Integer idCliente, Integer idBarbeiro, Integer idTipoCorte, String dataMarcada, String hora) {
+        
         AgendamentoEntity agendamento = new AgendamentoEntity();
-        agendamento.setCliente(cliente);
-        agendamento.setFuncionario(barbeiro);
-        agendamento.setCorte(tipoCorte);
-        agendamento.setData_marcada(dataMarcada);
-        agendamento.setHora(hora);
 
-        // Salvar o agendamento no banco de dados
+        ClienteEntity cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+        FuncionarioEntity barbeiro = funcionarioRepository.findById(idBarbeiro).orElseThrow(() -> new EntityNotFoundException("Barbeiro não encontrado"));
+        CortesEntity corte = cortesRepository.findById(idTipoCorte).orElseThrow(() -> new EntityNotFoundException("Tipo de corte não encontrado"));
+
+        agendamento.setCliente(cliente); 
+        agendamento.setFuncionario(barbeiro); 
+        agendamento.setServico(corte); 
+
+        agendamento.setDataMarcada(dataMarcada); 
+        agendamento.setHora(hora); 
+
         return agendamentoRepository.save(agendamento);
     }
 
@@ -63,7 +60,7 @@ public class AgendamentoService {
             .orElseThrow(() -> new ResourceNotFoundException("Filme não encontrado com id " + agendamentoId));
     }
 
-    public List<AgendamentoEntity> listarTdAgendamentos(){
+    public List<AgendamentoEntity> findAll() {
         return agendamentoRepository.findAll();
     }
 

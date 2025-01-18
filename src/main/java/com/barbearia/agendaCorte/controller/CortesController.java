@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +35,21 @@ public class CortesController {
     }
 
     
-    // @GetMapping("/servico/id/{nome}")
-    // public Integer buscarIdPorNome(@PathVariable String nome) {
-    //     return cortesService.buscarIdPorNome(nome);
-    // }
+    @GetMapping("/id/{corte}")
+    public ResponseEntity<Integer> buscarIdPorCorte(@PathVariable("corte") String corte) {
+        try {
+            Integer idTipoCorte = cortesService.buscarIdPorCorte(corte); 
+            
+           
+            if (idTipoCorte != null) {
+                return ResponseEntity.ok(idTipoCorte);
+            } else {
+               
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+           
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

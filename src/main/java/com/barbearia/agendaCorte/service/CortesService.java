@@ -1,8 +1,6 @@
 package com.barbearia.agendaCorte.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +17,7 @@ public class CortesService {
     private CortesRepository cortesRepository;
 
     public CortesEntity criarCortes(CortesEntity cortes) {
-        // Não precisa setar o id como null, o Hibernate cuida disso
+        
         return cortesRepository.save(cortes);
     }
 
@@ -32,12 +30,18 @@ public class CortesService {
         return cortesRepository.findAll();
     }
 
-    public Optional<CortesEntity> findByNome(String nome) {
-        return cortesRepository.findByNome(nome);
-    }
 
     public CortesEntity findById(Integer tipoCorteId) {
         return cortesRepository.findById(tipoCorteId)
                 .orElseThrow(() -> new EntityNotFoundException("Tipo de corte não encontrado com ID " + tipoCorteId));
+    }
+
+    public Integer buscarIdPorCorte(String corte) {
+        CortesEntity tipoCorte = cortesRepository.findByNome(corte);  
+
+        if (tipoCorte != null) {
+            return tipoCorte.getIdTipoCorte();  
+        }
+        return null;  
     }
 }

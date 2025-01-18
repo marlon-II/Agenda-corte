@@ -53,6 +53,6 @@ public class PaginaController {
 
     @RequestMapping("/listaAgendamento")
     public String ListaAgenda(){
-        return "ListaAgendamento";
+        return "ListaAgenda";
     }
 }

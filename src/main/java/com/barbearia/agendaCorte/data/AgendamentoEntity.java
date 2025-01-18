@@ -1,9 +1,7 @@
 package com.barbearia.agendaCorte.data;
 
-
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,21 +16,26 @@ import lombok.Data;
 
 public class AgendamentoEntity {
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_agendamento;
 
-    @ManyToOne(fetch = FetchType.LAZY)  // Relacionamento com ClienteEntity
-    @JoinColumn(name = "id_cliente", nullable = false)  // Nome da coluna no banco
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", nullable = false)
     private ClienteEntity cliente;
 
-    @ManyToOne(fetch = FetchType.LAZY)  // Relacionamento com FuncionarioEntity (barbeiro)
-    @JoinColumn(name = "id_barbeiro", nullable = false)  // Nome da coluna no banco
+    @ManyToOne
+    @JoinColumn(name = "id_barbeiro", nullable = false)
     private FuncionarioEntity funcionario;
 
-    @ManyToOne(fetch = FetchType.LAZY)  // Relacionamento com CortesEntity (tipo de corte)
-    @JoinColumn(name = "idTipoCorte", nullable = false)  // Nome da coluna no banco
-    private CortesEntity corte;
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_corte", nullable = false)
+    private CortesEntity servico;
 
-    private String data_marcada;
+    @Column(name = "data_marcada", nullable = false)
+    private String dataMarcada;
+
+    @Column(name = "hora", nullable = false)
     private String hora;
+
+   
 }

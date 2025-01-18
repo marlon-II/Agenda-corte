@@ -1,8 +1,6 @@
 package com.barbearia.agendaCorte.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +32,24 @@ public class FuncionarioService {
         return funcionarioRepository.findAll();
     }
 
-    public Optional<FuncionarioEntity> findByNome(String nome) {
-        return funcionarioRepository.findByNome(nome);
-    }
-
     public FuncionarioEntity findById(Integer barbeiroId) {
         return funcionarioRepository.findById(barbeiroId)
                 .orElseThrow(() -> new EntityNotFoundException("Barbeiro não encontrado com ID " + barbeiroId));
+    }
+
+    public Integer buscarIdPorFuncionario(String nomeF) {
+        FuncionarioEntity funcionario = funcionarioRepository.findByNome(nomeF);  
+        if (funcionario != null) {
+            return funcionario.getId_barbeiro();  
+        }
+        return null;  
+    }
+
+    public FuncionarioEntity autenticarFuncionario(String nome, String senha) {
+        FuncionarioEntity funcionario = funcionarioRepository.findByNome(nome);
+        if (funcionario != null && funcionario.getSenha().equals(senha)) {
+            return funcionario;
+        }
+        return null;
     }
 }

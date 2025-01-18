@@ -17,5 +17,6 @@ public class FuncionarioEntity {
     private Integer id_barbeiro;
     private String nome;
     private String area;
+    private String senha;
     
 }

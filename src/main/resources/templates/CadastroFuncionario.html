@@ -28,6 +28,11 @@
                     <label  class="form-label">Área de Atuação</label>
                     <input id="area" type="text" class="form-control"  placeholder="Digite a área de atuação" required>
                 </div>
+
+                <div class="mb-3">
+                    <label  class="form-label">Área de Atuação</label>
+                    <input id="senha" type="text" class="form-control"  placeholder="Digite a senha" required>
+                </div>
         
                  <div class="text-center mt-4">
                     <div class="d-flex justify-content-center gap-3">
@@ -46,11 +51,13 @@
 
     const nome = document.getElementById("nome").value;
     const area = document.getElementById("area").value;
+    const senha = document.getElementById("senha").value;
+
 
     fetch('/funcionario/adicionar', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nome, area})
+    body: JSON.stringify({ nome, area, senha})
 })
 .then(response => response.json())
 .then(data => {

@@ -1,7 +1,6 @@
 package com.barbearia.agendaCorte.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.barbearia.agendaCorte.data.AgendamentoEntity;
+import com.barbearia.agendaCorte.data.AgendamentoRepository;
 import com.barbearia.agendaCorte.data.AgendamentoRequest;
-// import com.barbearia.agendaCorte.data.ClienteEntity;
-// import com.barbearia.agendaCorte.data.CortesEntity;
-// import com.barbearia.agendaCorte.data.FuncionarioEntity;
 import com.barbearia.agendaCorte.exeption.ResourceNotFoundException;
 import com.barbearia.agendaCorte.service.AgendamentoService;
-// import com.barbearia.agendaCorte.service.ClienteService;
-// import com.barbearia.agendaCorte.service.CortesService;
-// import com.barbearia.agendaCorte.service.FuncionarioService;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -32,19 +26,14 @@ public class AgendamentoController {
     @Autowired
 
     AgendamentoService agendamentoService;
-//  @Autowired
-    // private ClienteService clienteService;
 
-    // @Autowired
-    // private FuncionarioService funcionarioService;
+    @Autowired
+    private AgendamentoRepository agendamentoRepository;
 
-    // @Autowired
-    // private CortesService corteService;
-
-   @PostMapping("/adicionar")
+    @PostMapping("/adicionar")
     public ResponseEntity<AgendamentoEntity> adicionarAgendamento(@RequestBody AgendamentoRequest request) {
         try {
-            // Chama o serviço para criar o agendamento
+            
             AgendamentoEntity agendamento = agendamentoService.criarAgendamento(
                 request.getId_cliente(),
                 request.getId_barbeiro(),
@@ -53,10 +42,10 @@ public class AgendamentoController {
                 request.getHora()
             );
 
-            // Retorna o agendamento criado com sucesso
+            
             return ResponseEntity.ok(agendamento);
         } catch (EntityNotFoundException e) {
-            // Caso algum dado não seja encontrado (cliente, barbeiro, tipo de corte)
+            
             return ResponseEntity.badRequest().body(null);
         }
     }
@@ -71,13 +60,18 @@ public class AgendamentoController {
         }
     }
 
-    @SuppressWarnings("rawtypes")
+    
     @GetMapping("/listar")
-   public ResponseEntity<List> getAllFilmes() { 
+    public ResponseEntity<List<AgendamentoEntity>> listarAgendamentos() {
+        try {
+            List<AgendamentoEntity> agendamentos = agendamentoRepository.findAll();
+            if (agendamentos.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(agendamentos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
-        List<AgendamentoEntity> agendamento = agendamentoService.listarTdAgendamentos(); 
-
-        return new ResponseEntity<>(agendamento, HttpStatus.OK); 
-
- } 
 }
