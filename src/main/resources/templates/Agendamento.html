@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastrar Agendamento</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet"th:href="@{/css/cssGeral.css}">
+</head>
+<body>
+
+    <div id="logo" class="container-fluid">
+        <h1>Agenda corte</h1>
+    </div>
+
+    <h3 class="text-center mb-4">Agendamento</h3>
+
+    <div class="container py-5">
+        <form id="formAgenda" onsubmit="agendar(event)">
+
+            <div class="mb-3">
+                <label class="form-label">Nome do Cliente</label>
+                <input id="nomeC" type="text" class="form-control" placeholder="Nome do Cliente" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Data</label>
+                <input id="data" type="date" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Horário</label>
+                <input id="hora" type="time" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tipo de Corte</label>
+                <input id="corte" type="text" class="form-control" placeholder="Tipo de Corte" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Barbeiro</label>
+                <input id="nomeF" type="text" class="form-control" placeholder="Nome do Barbeiro" required>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-secondary">Cadastrar</button>
+                <a href="/Menu" class="btn btn-light">Voltar</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        
+        async function agendar(event) {
+            event.preventDefault();
+
+            
+            const ids = await buscarIdPorNome();
+
+            if (!ids) return;  
+
+           
+            const { id_cliente, idTipoCorte, id_barbeiro } = ids;
+            const data = document.getElementById("data").value;
+            const hora = document.getElementById("hora").value;
+
+           
+            fetch('/agendamento/adicionar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id_cliente,        
+                    data_marcada: data,
+                    hora,
+                    idTipoCorte,    
+                    id_barbeiro       
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Agendamento realizado:", data);
+                
+                alert("Agendamento realizado com sucesso!");
+            })
+            .catch(error => {
+                console.error('Erro ao agendar:', error);
+                alert("Erro ao agendar. Tente novamente.");
+            });
+        }
+
+        async function buscarIdPorNome() {
+            const nomeC = document.getElementById("nomeC").value;
+            const corte = document.getElementById("corte").value;
+            const nomeF = document.getElementById("nomeF").value;
+
+            try {
+                const ids = {};
+
+                if (nomeC) {
+                    const responseCliente = await fetch(`/cliente/id/${nomeC}`);
+                    const id_cliente = await responseCliente.json();
+                    if (id_cliente) {
+                        ids.id_cliente = id_cliente;
+                    } else {
+                        alert("Cliente não encontrado!");
+                        return null;
+                    }
+                }
+
+                if (corte) {
+                    const responseCorte = await fetch(`/cortes/id/${corte}`);
+                    const idTipoCorte = await responseCorte.json(); 
+                    if (idTipoCorte) {
+                        ids.idTipoCorte = idTipoCorte; 
+                    } else {
+                        alert("Tipo de corte não encontrado!");
+                        return null;
+                    }
+                }
+
+                if (nomeF) {
+                    const responseFuncionario = await fetch(`/funcionario/id/${nomeF}`);
+                    const id_barbeiro = await responseFuncionario.json();
+                    if (id_barbeiro) {
+                        ids.id_barbeiro = id_barbeiro;
+                    } else {
+                        alert("Barbeiro não encontrado!");
+                        return null;
+                    }
+                }
+
+                return ids; 
+            } catch (error) {
+                console.error('Erro na busca dos IDs:', error);
+                alert("Erro ao buscar os dados. Tente novamente.");
+            }
+        }
+    </script>
+</body>
+</html>

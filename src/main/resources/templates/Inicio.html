@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet"th:href="@{/css/cssGeral.css}">
+</head>
+<body>
+
+    <div id="logo" class="container-fluid">
+        <h1>Agenda corte</h1>
+    </div>
+
+    <div class="container mt-5">
+        <h2 class="text-center">Login</h2>
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" required>
+            </div>
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senha" required>
+            </div>
+            <button type="submit" class="btn btn-secondary">Entrar</button>
+            <a href="/adicionarCliente" class="btn btn-secondary">Cadastrar cliente</a>
+
+        </form>
+    </div>
+
+   
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('nome').value;
+            const senha = document.getElementById('senha').value;
+
+            const loginData = { nome, senha };
+
+          
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Credenciais incorretas');
+                }
+                return response.json(); 
+            })
+            .then(data => {
+              
+                localStorage.setItem("userType", data.tipo);
+
+                
+                window.location.href = '/Menu';
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+        });
+    </script>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

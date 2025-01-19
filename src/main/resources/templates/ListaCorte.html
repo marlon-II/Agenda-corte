@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Corte</title>
+    <link rel="stylesheet"th:href="@{/css/cssGeral.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="logo" class="container-fluid">
+        <h1>Agenda corte</h1>
+    </div>
+
+    <h3 class="text-center mb-4">Lista de Corte</h3>
+
+    <div  class="container-fluid">
+
+        <table id="corteTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="text-center mt-4">
+            <a href="/Menu" class="btn btn-light">Voltar</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function listaCorte() {
+            fetch('/cortes/listar')
+                .then(response => response.json())
+                .then(cortes => {
+                    const corteTableBody = document.getElementById('corteTable').getElementsByTagName('tbody')[0];
+                    corteTableBody.innerHTML = '';
+
+                    cortes.forEach(corte => {
+                        const row = corteTableBody.insertRow();
+                        row.innerHTML = `
+                            <td>${corte.idTipoCorte}</td>  <!-- Correção para idTipoCorte -->
+                            <td>${corte.nome}</td>
+                            <td>${corte.valor}</td>
+                        `;
+                    });
+                })
+                .catch(error => console.error('Erro ao listar cortes:', error));
+        }
+
+        window.onload = listaCorte;
+    </script>
+</body>
+</html>

@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+<<<<<<< HEAD
+=======
+/nbproject/
+>>>>>>> c3ef651b09104bf98de82f22b0bba08f245b0109
