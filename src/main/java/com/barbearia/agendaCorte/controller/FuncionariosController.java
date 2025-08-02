@@ -17,7 +17,7 @@ import com.barbearia.agendaCorte.service.FuncionarioService;
 
 @RestController
 @RequestMapping("/funcionario")
-public class FuncionarioController {
+public class FuncionariosController {
     @Autowired
 
     FuncionarioService funcionarioService;
